@@ -84,6 +84,7 @@ class _TextEditorState extends State<TextEditor> {
   late TextStyleModel _textStyleModel;
   late FontOptionModel _fontOptionModel;
   late Widget _doneButton;
+  late TextEditingController _controller;
 
   @override
   void initState() {
@@ -97,6 +98,9 @@ class _TextEditorState extends State<TextEditor> {
       widget.fonts,
       colors: widget.paletteColors,
     );
+
+    _controller = TextEditingController(text: widget.text);
+    _controller.addListener(_handleTextChanged);
 
     // Rebuild whenever a value changes
     _textStyleModel.addListener(() {
@@ -113,6 +117,18 @@ class _TextEditorState extends State<TextEditor> {
         Text('Done', style: TextStyle(color: Colors.white));
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(_handleTextChanged);
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _handleTextChanged() {
+    widget.onTextChanged?.call(_controller.text);
+    _textStyleModel.text = _controller.text;
   }
 
   void _editCompleteHandler() {
@@ -182,9 +198,11 @@ class _TextEditorState extends State<TextEditor> {
                     child: Container(
                       child: Center(
                         child: TextField(
-                          controller: TextEditingController()
-                            ..text = _textStyleModel.text,
-                          onChanged: (value) => _textStyleModel.text = value,
+                          controller: _controller,
+                          onChanged: (value) {
+                            _textStyleModel.text = value;
+                            widget.onTextChanged?.call(value);
+                          },
                           maxLines: null,
                           keyboardType: TextInputType.multiline,
                           style: _textStyleModel.textStyle,
