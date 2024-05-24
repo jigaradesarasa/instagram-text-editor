@@ -13,7 +13,7 @@ import 'package:text_editor/text_editor_data.dart';
 import 'src/widget/text_background_color.dart';
 
 /// Instagram like text editor
-/// A flutter widget that edit text style and text alignment
+/// A flutter widget that edits text style and text alignment
 ///
 /// You can pass your text style to the widget
 /// and then get the edited text style
@@ -21,10 +21,10 @@ class TextEditor extends StatefulWidget {
   /// Editor's font families
   final List<String> fonts;
 
-  /// After edit process completed, [onEditCompleted] callback will be called.
+  /// After the edit process is completed, [onEditCompleted] callback will be called.
   final void Function(TextStyle, TextAlign, String) onEditCompleted;
 
-  /// [onTextAlignChanged] will be called after [textAlingment] prop has changed
+  /// [onTextAlignChanged] will be called after [textAlignment] prop has changed
   final ValueChanged<TextAlign>? onTextAlignChanged;
 
   /// [onTextStyleChanged] will be called after [textStyle] prop has changed
@@ -34,7 +34,7 @@ class TextEditor extends StatefulWidget {
   final ValueChanged<String>? onTextChanged;
 
   /// The text alignment
-  final TextAlign? textAlingment;
+  final TextAlign? textAlignment;
 
   /// The text style
   final TextStyle? textStyle;
@@ -56,10 +56,10 @@ class TextEditor extends StatefulWidget {
 
   /// Create a [TextEditor] widget
   ///
-  /// [fonts] list of font families that you want to use in editor.
+  /// [fonts] list of font families that you want to use in the editor.
   ///
-  /// After edit process completed, [onEditCompleted] callback will be called
-  /// with new [textStyle], [textAlingment] and [text] value
+  /// After the edit process is completed, [onEditCompleted] callback will be called
+  /// with new [textStyle], [textAlignment], and [text] value
   TextEditor({
     required this.fonts,
     required this.onEditCompleted,
@@ -67,7 +67,7 @@ class TextEditor extends StatefulWidget {
     this.backgroundColor,
     this.text = '',
     this.textStyle,
-    this.textAlingment,
+    this.textAlignment,
     this.minFontSize = 1,
     this.maxFontSize = 100,
     this.onTextAlignChanged,
@@ -91,7 +91,7 @@ class _TextEditorState extends State<TextEditor> {
     _textStyleModel = TextStyleModel(
       widget.text,
       textStyle: widget.textStyle,
-      textAlign: widget.textAlingment,
+      textAlign: widget.textAlignment,
     );
     _fontOptionModel = FontOptionModel(
       _textStyleModel,
@@ -117,6 +117,15 @@ class _TextEditorState extends State<TextEditor> {
         Text('Done', style: TextStyle(color: Colors.white));
 
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(TextEditor oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.text != oldWidget.text) {
+      _controller.text = widget.text;
+      _textStyleModel.text = widget.text;
+    }
   }
 
   @override
