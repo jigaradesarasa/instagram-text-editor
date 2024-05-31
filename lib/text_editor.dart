@@ -206,11 +206,6 @@ class _TextEditorState extends State<TextEditor> {
                   Expanded(
                     child: Container(
                       child: Center(
-                        Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            color: _textStyleModel.textStyle.backgroundColor,
-                            borderRadius: BorderRadius.all(Radius.circular(5))),
                         child: TextField(
                           controller: _controller,
                           onChanged: (value) {
@@ -224,7 +219,6 @@ class _TextEditorState extends State<TextEditor> {
                           autofocus: true,
                           cursorColor: Colors.white,
                           decoration: null,
-                        ),
                         ),
                       ),
                     ),
