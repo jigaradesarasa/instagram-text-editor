@@ -212,6 +212,7 @@ class _TextEditorState extends State<TextEditor> {
                             _textStyleModel.text = value;
                             widget.onTextChanged?.call(value);
                           },
+                          textCapitalization: TextCapitalization.sentences,
                           maxLines: null,
                           keyboardType: TextInputType.multiline,
                           style: _textStyleModel.textStyle,
